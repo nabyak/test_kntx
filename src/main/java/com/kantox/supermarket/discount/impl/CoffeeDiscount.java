@@ -5,15 +5,16 @@ import com.kantox.supermarket.product.IProduct;
 
 import java.math.BigDecimal;
 
-public class StrawBerryDiscount implements IDiscount {
-    BigDecimal discountedPrice = BigDecimal.valueOf(4.5);
+public class CoffeeDiscount implements IDiscount {
+    BigDecimal discountFactor = BigDecimal.valueOf(2.0 / 3.0);
+
     @Override
     public BigDecimal getDiscountedPrice(IProduct product, int count) {
-
         BigDecimal multiplicand = new BigDecimal(count);
-        if (count >= 3){
-            discountedPrice.multiply(multiplicand);
+        BigDecimal actualTotalPrice = product.getPrice().multiply(multiplicand);
+        if (count >= 3) {
+            return actualTotalPrice.multiply(discountFactor);
         }
-        return product.getPrice().multiply(multiplicand);
+        return actualTotalPrice;
     }
 }

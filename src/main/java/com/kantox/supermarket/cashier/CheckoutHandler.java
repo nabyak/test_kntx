@@ -2,11 +2,8 @@ package com.kantox.supermarket.cashier;
 
 import com.kantox.supermarket.cart.ICheckoutCart;
 import com.kantox.supermarket.cart.impl.CheckoutCart;
-import com.kantox.supermarket.discount.IDiscount;
 import com.kantox.supermarket.discount.IDiscountHandler;
 import com.kantox.supermarket.product.IProduct;
-
-import java.util.Map;
 
 public class CheckoutHandler {
 
@@ -52,4 +49,7 @@ public class CheckoutHandler {
         return currentCart;
     }
 
+    public IDiscountHandler getDiscountHandler() {
+        return discountHandler;
+    }
 }

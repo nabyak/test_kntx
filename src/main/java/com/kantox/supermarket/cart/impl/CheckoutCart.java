@@ -2,6 +2,7 @@ package com.kantox.supermarket.cart.impl;
 
 import com.kantox.supermarket.cart.ICheckoutCart;
 import com.kantox.supermarket.constants.ProductCode;
+import com.kantox.supermarket.discount.IDiscount;
 import com.kantox.supermarket.discount.IDiscountHandler;
 import com.kantox.supermarket.product.IProduct;
 
@@ -37,7 +38,12 @@ public class CheckoutCart implements ICheckoutCart {
         Integer itemCount = items.getOrDefault(product.getProductCode(), 0);
         itemCount++;
         actualPrice = actualPrice.add(product.getPrice());
-        discountedPrice = discountHandler.applyDiscount(this);
+        IDiscount discount = discountHandler.getDiscount(product);
+        if (discount != null) {
+            discountedPrice = discountedPrice.add(discount.getDiscountedPrice(product, itemCount));
+        } else {
+            discountedPrice = actualPrice;
+        }
         items.put(product.getProductCode(), itemCount);
     }
 
