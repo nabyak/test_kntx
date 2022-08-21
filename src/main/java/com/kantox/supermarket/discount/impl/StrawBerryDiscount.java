@@ -12,7 +12,7 @@ public class StrawBerryDiscount implements IDiscount {
 
         BigDecimal multiplicand = new BigDecimal(count);
         if (count >= 3){
-            discountedPrice.multiply(multiplicand);
+            return discountedPrice.multiply(multiplicand);
         }
         return product.getPrice().multiply(multiplicand);
     }

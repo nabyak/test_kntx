@@ -7,6 +7,8 @@ import com.kantox.supermarket.discount.IDiscountHandler;
 import com.kantox.supermarket.product.IProduct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CheckoutCart implements ICheckoutCart {
@@ -17,6 +19,14 @@ public class CheckoutCart implements ICheckoutCart {
 
     private IDiscountHandler discountHandler;
 
+    public CheckoutCart() {
+        items = new HashMap<>();
+        actualPrice = BigDecimal.ZERO;
+        discountedPrice = BigDecimal.ZERO;
+
+        actualPrice.setScale(2, RoundingMode.HALF_EVEN);
+    }
+
 
     @Override
     public Map<ProductCode, Integer> getItems() {
@@ -25,12 +35,14 @@ public class CheckoutCart implements ICheckoutCart {
 
     @Override
     public BigDecimal getActualPrice() {
-        return actualPrice;
+        // Rounding off to two decimal places
+        return actualPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     @Override
     public BigDecimal getDiscountedPrice() {
-        return discountedPrice;
+        // Rounding off to two decimal places
+        return discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     @Override
@@ -40,6 +52,9 @@ public class CheckoutCart implements ICheckoutCart {
         actualPrice = actualPrice.add(product.getPrice());
         IDiscount discount = discountHandler.getDiscount(product);
         if (discount != null) {
+            //Reduce the previously added price for the item
+            discountedPrice = discountedPrice.subtract(discount.getDiscountedPrice(product, itemCount - 1));
+            // Then add the discounted price for the new count of items
             discountedPrice = discountedPrice.add(discount.getDiscountedPrice(product, itemCount));
         } else {
             discountedPrice = actualPrice;

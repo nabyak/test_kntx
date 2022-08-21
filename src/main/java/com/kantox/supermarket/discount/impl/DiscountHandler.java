@@ -22,7 +22,7 @@ public class DiscountHandler implements IDiscountHandler {
     }
 
     @Override
-    public void addDiscounts(IProduct product, IDiscount discount) {
-        discountMap.put(product.getProductCode(), discount);
+    public void addDiscounts(ProductCode productCode, IDiscount discount) {
+        discountMap.put(productCode, discount);
     }
 }

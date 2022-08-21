@@ -28,7 +28,7 @@ public class CheckoutHandler {
     }
 
     public void prepareTill() {
-        currentCart =  new CheckoutCart();
+        currentCart = new CheckoutCart();
         currentCart.setDiscountHandler(discountHandler);
     }
 
@@ -42,6 +42,9 @@ public class CheckoutHandler {
     }
 
     public void addDiscountHandler(IDiscountHandler handler) {
+        if (currentCart != null) {
+            currentCart.setDiscountHandler(handler);
+        }
         discountHandler = handler;
     }
 
@@ -51,5 +54,9 @@ public class CheckoutHandler {
 
     public IDiscountHandler getDiscountHandler() {
         return discountHandler;
+    }
+
+    public void invalidateCart(){
+        currentCart = null;
     }
 }
