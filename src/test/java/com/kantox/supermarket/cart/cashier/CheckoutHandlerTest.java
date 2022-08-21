@@ -1,6 +1,7 @@
-package com.kantox.supermarket.cashier;
+package com.kantox.supermarket.cart.cashier;
 
 import com.kantox.supermarket.cart.ICheckoutCart;
+import com.kantox.supermarket.cashier.CheckoutHandler;
 import com.kantox.supermarket.constants.ProductCode;
 import com.kantox.supermarket.discount.IDiscountHandler;
 import com.kantox.supermarket.discount.impl.CoffeeDiscount;

@@ -47,17 +47,24 @@ public class CheckoutCart implements ICheckoutCart {
 
     @Override
     public void addProduct(IProduct product) {
+        if (product == null){
+            return;
+        }
         Integer itemCount = items.getOrDefault(product.getProductCode(), 0);
         itemCount++;
         actualPrice = actualPrice.add(product.getPrice());
-        IDiscount discount = discountHandler.getDiscount(product);
-        if (discount != null) {
-            //Reduce the previously added price for the item
-            discountedPrice = discountedPrice.subtract(discount.getDiscountedPrice(product, itemCount - 1));
-            // Then add the discounted price for the new count of items
-            discountedPrice = discountedPrice.add(discount.getDiscountedPrice(product, itemCount));
-        } else {
-            discountedPrice = actualPrice;
+        if (discountHandler != null) {
+            IDiscount discount = discountHandler.getDiscount(product);
+            if (discount != null) {
+                //Reduce the previously added price for the item
+                discountedPrice = discountedPrice.subtract(discount.getDiscountedPrice(product, itemCount - 1));
+                // Then add the discounted price for the new count of items
+                discountedPrice = discountedPrice.add(discount.getDiscountedPrice(product, itemCount));
+            } else {
+                discountedPrice = actualPrice;
+            }
+        }else{
+            discountedPrice =  actualPrice;
         }
         items.put(product.getProductCode(), itemCount);
     }
